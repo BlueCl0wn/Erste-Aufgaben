@@ -36,7 +36,3 @@ newDis = []
 # Erneutes berechnen der Abstände und anfügen and Lsite newDis.
 for i in range(length):
     newDis.append(distance(my_arr[i], (0.5, 0.5)))
-
-print(newDis)
-
-#print(distance((5,5),(10,10)))
