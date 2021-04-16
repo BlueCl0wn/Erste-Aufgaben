@@ -27,15 +27,34 @@ def calc(numbers):
     fourth = numbers[0] / (numbers[0]+numbers[1])
     return (4 * fourth)
 
-# Calculates and appends min, max and mean of an array to its end.
-def data(my_arr):
+# Berechnet Standardabweichung.
+def standardabweichung(n, my_arr):
+     mean = np.mean(my_arr)
+     x = 0
+     for i in range(my_arr.size()):
+         x += (my_arr[i] - mean)**2
+     return math.sqrt(x/(n-1))
+
+# Fehler des Mittelwert
+def fehlerMittelwert(n, my_arr):
+    return standardabweichung(n, my_arr)/math.sqrt(n)
+
+# Berechnet Betrag der Differenz zweier Zahlen.
+def differenz(a, b):
+    return math.abs(a - b)
+
+# Berechnet verschieden statistische Werte eines Zahlenarrays und gibt diese als Liste zurück.
+def data(n, my_arr):
     min = my_arr.min()
     max= my_arr.max()
     mean= np.mean(my_arr)
+    standardabweichung = standardabweichung(n, my_arr)
+    fehlMittel = fehlerMittelwert(n, my_arr)
+
     # my_arr = np.append(my_arr, my_arr.min())
     # my_arr = np.append(my_arr, my_arr.max())
     # my_arr = np.append(my_arr, np.mean(my_arr))
-    return (min, max, mean)
+    return [min, max, mean, standardabweichung, fehlMittel]
 
 # Zusammenfassung der Methoden zur Berechnung von Pi.
 def pi(n):
@@ -49,7 +68,7 @@ def repeat(n, r):
     arr = np.zeros(r)
     for i in range(r):
         arr[i] = pi(n)
-    arr = np.append(arr, data(arr))
+    #arr = np.append(arr, data(arr))
     return arr
 
 # Erzeugt einen Array, in dem für verschiedenen Wiederholungen mit verschiedenen Anzahl an Punkten gespeicher werden.
@@ -60,8 +79,18 @@ def table(nMaxPos, r):
 
     return arr
 
+def test(n, r):
+    results = repeat(n, r)
+    print(results)
+    print()
+    data = np.empty((r, 5))
+    for i in range(r):
+        np.append(data[i], data(n, results))
+        # data[i] = np.array(1).append(data(n, results))
+    print(data)
 # def write
 
 # table = table(4, 50)
 # print(table)
-print(table(5, 50))
+# print(table(5, 50))
+test(100,100)
