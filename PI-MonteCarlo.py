@@ -1,6 +1,7 @@
 # Importieren von Bibliotheken#
 import math
 import numpy as np
+import matplotlib.pyplot as plt
 
 # Funktion distance berechnet den Betrag des Distanzvektors von Punkt A zu Punkt B.
 def distance(punktA, punktB):
@@ -28,16 +29,17 @@ def calc(numbers):
     return (4 * fourth)
 
 # Berechnet Standardabweichung.
-def standardabweichung(n, my_arr):
-     mean = np.mean(my_arr)
-     x = 0
-     for i in range(my_arr.size()):
-         x += (my_arr[i] - mean)**2
-     return math.sqrt(x/(n-1))
+def standardabweichung(varianz):
+    return math.sqrt(varianz)
 
-# Fehler des Mittelwert
-def fehlerMittelwert(n, my_arr):
-    return standardabweichung(n, my_arr)/math.sqrt(n)
+# Berechnet Varianz.
+def varianz(n, my_arr):
+     mean = np.mean(my_arr)
+     x = 0.0
+     for i in range(my_arr.size):
+         z = (my_arr[i] - mean)**2
+         x += z
+     return math.sqrt(x/n)
 
 # Berechnet Betrag der Differenz zweier Zahlen.
 def differenz(a, b):
@@ -45,16 +47,17 @@ def differenz(a, b):
 
 # Berechnet verschieden statistische Werte eines Zahlenarrays und gibt diese als Liste zurück.
 def data(n, my_arr):
+    length = my_arr.size
+    max = my_arr.max()
     min = my_arr.min()
-    max= my_arr.max()
-    mean= np.mean(my_arr)
-    standardabweichung = standardabweichung(n, my_arr)
-    fehlMittel = fehlerMittelwert(n, my_arr)
+    mean = np.mean(my_arr)
+    var = varianz(n, my_arr)
+    standAbweichung = standardabweichung(var)
 
     # my_arr = np.append(my_arr, my_arr.min())
     # my_arr = np.append(my_arr, my_arr.max())
     # my_arr = np.append(my_arr, np.mean(my_arr))
-    return [min, max, mean, standardabweichung, fehlMittel]
+    return [length, min, max, mean, standAbweichung, var]
 
 # Zusammenfassung der Methoden zur Berechnung von Pi.
 def pi(n):
@@ -62,6 +65,29 @@ def pi(n):
     x = count(points)
     pi = calc(x)
     return pi
+
+# Plottet die Punkte auf einer Grafik.
+def piPlot(n):
+    points = random(n, 2)
+    x = count(points)
+    pi = calc(x)
+    x, y = points.T
+
+    # Zeichnet den Viertelkreis im Quadrat.
+    circle=plt.Circle((0,0),1, color="r", fill=False)
+    fig, ax = plt.subplots()
+    ax.add_patch(circle)
+
+    # Setzt die Größe des Quadrats auf 1x1.
+    ax.set_xlim((0 , 1))
+    ax.set_ylim((0, 1))
+
+    # Zeichnet die Punkte in dem Quadrat.
+    ax.scatter(x, y, s=2)
+
+    # Zeigt die Zeichnung an.
+    fig.savefig('plotcircles.png')
+    plt.show()
 
 # Gibt Array aus mit r Wiederholungen der Berechnung von Pi, aber dauerhaft mit der gleichen Anzahl an Punkten.
 def repeat(n, r):
@@ -73,24 +99,46 @@ def repeat(n, r):
 
 # Erzeugt einen Array, in dem für verschiedenen Wiederholungen mit verschiedenen Anzahl an Punkten gespeicher werden.
 def table(nMaxPos, r):
-    arr = np.empty((nMaxPos, r+3))
+    arr = np.empty((nMaxPos, r))
     for i in range(nMaxPos):
         arr[i] = repeat(10**nMaxPos, r)
-
     return arr
 
+# Gibt einen Array mit verschiedenen Informationen über einen Array mit n Punkten und r Wiederholungen zurück.
 def test(n, r):
     results = repeat(n, r)
     print(results)
     print()
-    data = np.empty((r, 5))
-    for i in range(r):
-        np.append(data[i], data(n, results))
-        # data[i] = np.array(1).append(data(n, results))
-    print(data)
-# def write
+    information = np.empty((r, 5))
+    information = data(n, results)
+    return information
 
-# table = table(4, 50)
-# print(table)
-# print(table(5, 50))
-test(100,100)
+# Schreibt statistische Informationen in einer Datei mit dem Format csv.
+def infoTable(name, my_arr):
+    f = open(name, "w")
+    text = "n, r, min, max, avg, Standardabweichung, Varianz\n"
+    for i in range(np.ma.size(my_arr, 0)):
+        text += str(10**(i+1))
+        text += ","
+        x = data(10**i, my_arr[i])
+        for j in range(6):
+            if j == 0:
+                text += str(x[j])
+            else:
+                text += ","
+                text += str(x[j])
+        text += "\n"
+    print(text)
+    f.write(text)
+    f.close()
+
+
+tabelle50 = table(4, 50)
+tabelle100 = table(4, 100)
+# tabelle200 = table(4, 200)
+infoTable("Daten50.csv", tabelle50)
+infoTable("Daten100.csv", tabelle100)
+# infoTable("Daten200.csv", tabelle200)
+
+# piPlot(3000)
+# print(test(10000,100))
