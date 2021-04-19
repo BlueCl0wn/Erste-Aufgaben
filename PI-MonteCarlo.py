@@ -132,13 +132,11 @@ def infoTable(name, my_arr):
     f.write(text)
     f.close()
 
+def Datei(nMaxPos, r):
+    tabelle = table(nMaxPos, r)
+    name = "Daten" + str(r) + ".csv"
+    infoTable(name, tabelle)
 
-tabelle50 = table(4, 50)
-tabelle100 = table(4, 100)
-# tabelle200 = table(4, 200)
-infoTable("Daten50.csv", tabelle50)
-infoTable("Daten100.csv", tabelle100)
-# infoTable("Daten200.csv", tabelle200)
+# Datei(5, 200)
 
-# piPlot(3000)
-# print(test(10000,100))
+piPlot(5000)
