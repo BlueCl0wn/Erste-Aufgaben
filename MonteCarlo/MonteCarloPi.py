@@ -30,16 +30,26 @@ def calc(numbers):
 
 # Berechnet Standardabweichung.
 def standardabweichung(varianz):
-    return math.sqrt(varianz)
+    return np.std(varianz)
+
+
+# OLD - Berechnet Standardabweichung.
+# def standardabweichung(varianz):
+#     return math.sqrt(varianz)
 
 # Berechnet Varianz.
-def varianz(n, my_arr):
-     mean = np.mean(my_arr)
-     x = 0.0
-     for i in range(my_arr.size):
-         z = (my_arr[i] - mean)**2
-         x += z
-     return math.sqrt(x/n)
+def varianz(my_arr):
+    return np.var(my_arr)
+
+# OLD - Berechnet Varianz.
+# def varianz(n, my_arr):
+#      mean = np.mean(my_arr)
+#      x = 0.0
+#      print(my_arr)
+#      for i in range(my_arr.size):
+#          z = (my_arr[i] - mean)**2
+#          x += z
+#      return x/n
 
 # Berechnet Betrag der Differenz zweier Zahlen.
 def differenz(a, b):
@@ -51,13 +61,10 @@ def data(n, my_arr):
     max = my_arr.max()
     min = my_arr.min()
     mean = np.mean(my_arr)
-    var = varianz(n, my_arr)
-    standAbweichung = standardabweichung(var)
-
-    # my_arr = np.append(my_arr, my_arr.min())
-    # my_arr = np.append(my_arr, my_arr.max())
-    # my_arr = np.append(my_arr, np.mean(my_arr))
-    return [length, min, max, mean, standAbweichung, var]
+    var = varianz(my_arr)
+    standAbweichung = standardabweichung(my_arr)
+    diff = mean - math.pi
+    return [length, min, max, mean, standAbweichung, var, diff]
 
 # Zusammenfassung der Methoden zur Berechnung von Pi.
 def pi(n):
@@ -97,6 +104,7 @@ def repeat(n, r):
     #arr = np.append(arr, data(arr))
     return arr
 
+
 # Erzeugt einen Array, in dem für verschiedenen Wiederholungen mit verschiedenen Anzahl an Punkten gespeicher werden.
 def table(nMaxPos, r):
     arr = np.empty((nMaxPos, r))
@@ -116,12 +124,12 @@ def test(n, r):
 # Schreibt statistische Informationen in einer Datei mit dem Format csv.
 def infoTable(name, my_arr):
     f = open(name, "w")
-    text = "n, r, min, max, avg, Standardabweichung, Varianz\n"
+    text = "n, r, min, max, avg, Standardabweichung, Varianz, Differenz\n"
     for i in range(np.ma.size(my_arr, 0)):
         text += str(10**(i+1))
         text += ","
         x = data(10**i, my_arr[i])
-        for j in range(6):
+        for j in range(7):
             if j == 0:
                 text += str(x[j])
             else:
@@ -134,9 +142,8 @@ def infoTable(name, my_arr):
 
 def Datei(nMaxPos, r):
     tabelle = table(nMaxPos, r)
-    name = "Daten" + str(r) + ".csv"
+    name = "MonteCarlo\Daten\Daten" + str(r) + ".csv"
     infoTable(name, tabelle)
 
-# Datei(5, 200)
-
-piPlot(5000)
+Datei(4, 1000)
+# piPlot(5000)
