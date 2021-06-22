@@ -6,7 +6,7 @@ def charge():
     return np.random.choice([-1, 1])
 
 # Fills the array randomly with -1 and 1.
-def setCharges(my_arr):
+def setAllCharges(my_arr):
     for i in range(len(my_arr)):
         for j in range(len(my_arr[0])):
             my_arr[i][j] = charge()
@@ -14,7 +14,7 @@ def setCharges(my_arr):
 # Returns an array with the dimension n*n randomly filled with -1 or 1.
 def getGitter(n):
     x = np.zeros((n, n))
-    setCharges(x)
+    setAllCharges(x)
     return x
 
 # Plots an array as bunch of small squares.
@@ -28,3 +28,14 @@ def plot(my_arr, n):
 
     # Plots everything
     plt.show()
+
+def save(my_arr, n, string):
+    # Does fancy stuff. (creating subplot)
+    fig = plt.figure(figsize=(5,5))
+    ax = fig.add_subplot(111, aspect='equal')
+
+    # Displays the array as squares.
+    mesh = plt.pcolormesh(my_arr)
+
+    # Saves plot as .png
+    fig.savefig(string, dpi=200)
