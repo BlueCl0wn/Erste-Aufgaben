@@ -5,8 +5,8 @@ import MakeGitter as MG
 def deltaE(conf_alt, conf_neu, n):
     return DC.getAllCharge(conf_neu, n) - DC.getAllCharge(conf_alt, n)
 
-def switchSpin(conf_alt, n, e):
-    for x in range(1000):
+def switchSpin(conf_alt, n, e, r):
+    for x in range(r):
         # altE = getAllCharge(conf_alt, n)
         pos = np.random.randint(0, n, size=(2))
         conf_neu = conf_alt

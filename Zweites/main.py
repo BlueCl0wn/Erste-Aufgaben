@@ -7,7 +7,8 @@ import DeltaE.V2 as DeltaE
 import matplotlib.pyplot as plt
 
 n = 100
-e = 0.01
+e = 0.001
+r = 100000
 
 # print(DC.getAllCharge(x, n))
 def bla(n):
@@ -15,7 +16,7 @@ def bla(n):
 
 gitter = MG.getGitter(n)
 MG.save(gitter, n, "alt")
-conf_neu = DeltaE.switchSpin(gitter, n, e)
+conf_neu = DeltaE.switchSpin(gitter, n, e, r)
 MG.save(conf_neu, n, "neu")
 
 # x = MG.getGitter(n)
