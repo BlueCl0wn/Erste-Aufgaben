@@ -1,9 +1,17 @@
 import DetermineCharge as DC
 import numpy as np
 import MakeGitter as MG
-import time as t
+import math
+
+"""Definition der Boltzmann-Konstanten"""
+kBoltzmann = 1.380649e-23
+
+def beta(T):
+    """Berechnet beta."""
+    return 1/(kBoltzmann * T)
 
 def deltaE(conf_alt, altE, pos, charge, n):
+    """Berechnet den Energieunterschied des Systems nach dem Umdrehen eines Spins."""
     n -= 1
 
     neuE = altE
@@ -19,7 +27,8 @@ def deltaE(conf_alt, altE, pos, charge, n):
 
     return neuE - altE
 
-def switchSpin(conf, n, e, r):
+def switchSpin(conf, n, T, r):
+    """ Wählt einen zufälligen Spin aus, wechselt diesen und überprüft, ob dieser Wechsel beibehalten oder rückgängig gemacht wird. """
     altE = DC.getAllCharge(conf, n)
 
     for x in range(r):
@@ -29,12 +38,21 @@ def switchSpin(conf, n, e, r):
         pos = np.random.randint(0, n, size=(2))
 
         dE = deltaE(conf, altE, pos, charge, n)
+        # print("dE(T) = " + str(dE))
+
+        #
         if dE <= 0:
             conf[pos[0]][pos[1]] = charge
-        elif np.random.rand() < e:
+            # print("flipped")
+        elif np.random.rand() < math.exp(-dE):
             conf[pos[0]][pos[1]] = charge
+            # print("beta(T) = " + str(beta(T)))
+            # print("flipped")
         else:
+            # print("beta(T) = " + str(beta(T)))
+            # print("not flipped")
             pass
+        # print("---------------------------")
         altE = altE + dE
 
     return conf
