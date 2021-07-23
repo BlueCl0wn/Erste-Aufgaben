@@ -35,6 +35,7 @@ def deltaE(conf_alt, altE, pos, charge, n):
 def switchSpin(conf, n, T, r):
     """Wählt einen zufälligen Spin aus, wechselt diesen und überprüft, ob dieser Wechsel beibehalten oder rückgängig gemacht wird."""
 
+    # Variabeln für Akzeptanzrate.
     global tries
     global accepted
     global unaccepted
@@ -46,6 +47,7 @@ def switchSpin(conf, n, T, r):
         charge = MG.charge()
 
         pos = np.random.randint(0, n, size=(2))
+        #
         tries += 1
 
         dE = deltaE(conf, altE, pos, charge, n)
@@ -66,9 +68,14 @@ def switchSpin(conf, n, T, r):
             # print("beta(T) = " + str(beta(T)))
             # print("not flipped")
             pass
+
         # print("---------------------------")
+
         altE = altE + dE
+
+    # Ausgaben für Akzeptanzrate.
     print("tries = " + str(tries))
     print("accepted = " + str(accepted))
     print("unaccepted = "  + str(unaccepted))
+
     return conf
