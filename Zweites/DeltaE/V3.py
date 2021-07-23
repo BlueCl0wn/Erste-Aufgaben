@@ -28,7 +28,7 @@ def deltaE(conf_alt, altE, pos, charge, n):
     return neuE - altE
 
 def switchSpin(conf, n, T, r):
-    """ Wählt einen zufälligen Spin aus, wechselt diesen und überprüft, ob dieser Wechsel beibehalten oder rückgängig gemacht wird. """
+    """Wählt einen zufälligen Spin aus, wechselt diesen und überprüft, ob dieser Wechsel beibehalten oder rückgängig gemacht wird."""
     altE = DC.getAllCharge(conf, n)
 
     for x in range(r):
@@ -44,7 +44,7 @@ def switchSpin(conf, n, T, r):
         if dE <= 0:
             conf[pos[0]][pos[1]] = charge
             # print("flipped")
-        elif np.random.rand() < math.exp(-dE):
+        elif np.random.rand() < math.exp(-dE): # e ist eingeführt. J und beta kürzen sich aber gegenseitig weg, dadurch immer noch kein T. Ohne J kein sinnvoller Effekt des elifs, da redundant.
             conf[pos[0]][pos[1]] = charge
             # print("beta(T) = " + str(beta(T)))
             # print("flipped")
