@@ -20,17 +20,21 @@ def deltaE(conf_alt, altE, pos, charge, n):
     return neuE - altE
 
 def switchSpin(conf, n, e, r):
+    altE = DC.getAllCharge(conf, n)
+
     for x in range(r):
-        altE = DC.getAllCharge(conf, n)
+
         charge = MG.charge()
 
         pos = np.random.randint(0, n, size=(2))
 
-        if deltaE(conf, altE, pos, charge, n) <= 0:
+        dE = deltaE(conf, altE, pos, charge, n)
+        if dE <= 0:
             conf[pos[0]][pos[1]] = charge
         elif np.random.rand() < e:
             conf[pos[0]][pos[1]] = charge
         else:
             pass
+        altE = altE + dE
 
     return conf

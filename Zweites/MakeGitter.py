@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.colors as c
 
 # Returns randomly -1 or 1.
 def charge():
@@ -39,8 +40,11 @@ def saveIMG(my_arr, n, string):
     fig = plt.figure(figsize=(5,5))
     ax = fig.add_subplot(111, aspect='equal')
 
+    # Colormap for specific colors.
+    cMap = c.ListedColormap(["Black", 'White'])
+
     # Displays the array as squares.
-    mesh = plt.pcolormesh(my_arr)
+    mesh = plt.pcolormesh(my_arr, cmap=cMap)
 
     # Saves plot as .png
     fig.savefig(string, dpi=200)
