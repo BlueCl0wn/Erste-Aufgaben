@@ -36,11 +36,12 @@ def plot(my_arr, n):
     # Plots everything
     plt.show()
 
-def saveIMG(my_arr, n, string):
+def saveGridIMG(my_arr, n, string):
     """Saves Array visualized as image."""
     # Does fancy stuff. (creating subplot)
     fig = plt.figure(figsize=(5,5))
     ax = fig.add_subplot(111, aspect='equal')
+    ax.set_title(string)
 
     # Colormap for specific colors.
     cMap = c.ListedColormap(["Black", 'White'])

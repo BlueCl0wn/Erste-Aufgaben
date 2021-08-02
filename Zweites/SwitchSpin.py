@@ -5,8 +5,9 @@ import numpy as np
 # Funktionen
 import DetermineCharge as DC
 import MakeGitter as MG
-import Position as Pos
+import getPosition as GP
 import DeltaE.V3 as DeltaE
+import matplotlib.pyplot as plt
 
 def switchSpin(conf, n, T, r, distanz=0, akzeptanzrate=False):
     """
@@ -23,6 +24,9 @@ def switchSpin(conf, n, T, r, distanz=0, akzeptanzrate=False):
         akzeptiertW = 0
         abgelehnt = 0
 
+    yAxis = np.zeros(r)
+
+
     posAlt = (None, None)
     pos = None
 
@@ -34,7 +38,7 @@ def switchSpin(conf, n, T, r, distanz=0, akzeptanzrate=False):
         charge = MG.charge()
 
         # Position des Spinwechsel wird ausgewählt.
-        pos = Pos.position(posAlt, distanz, n)
+        pos = GP.getPosition(posAlt, distanz, n)
 
         # Zähler für Akzeptanzrate wird erhöht.
         if akzeptanzrate:
@@ -68,6 +72,7 @@ def switchSpin(conf, n, T, r, distanz=0, akzeptanzrate=False):
             pass
 
         altE = altE + dE
+        yAxis[x] = altE
 
     # Ausgaben für Akzeptanzrate.
     if akzeptanzrate:
@@ -76,5 +81,15 @@ def switchSpin(conf, n, T, r, distanz=0, akzeptanzrate=False):
         print("\tdE < 0 = " + str(akzeptiertE))
         print("\tw < e = " + str(akzeptiertW))
         print("unaccepted = "  + str(abgelehnt))
+        print("Akzeptanzrate (akzeptiert/Versuche): " + str(akzeptiert/Versuche))
+
+    fig, ax = plt.subplots()
+    xAxis = np.arange(0, r, 1)
+    ax.plot(xAxis, yAxis)
+    ax.set_title("Energie über r")
+    ax.axis([0,r, 0, ])
+    # plt.show()
+    # fig.savefig("bljusdfsdngo")
+
 
     return conf

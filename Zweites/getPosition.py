@@ -1,6 +1,6 @@
 import numpy as np
 
-def position(posAlt, distanz, n):
+def getPosition(posAlt, distanz, n):
     """
     Sucht anhand von der vorherigen Position des Spinwechsels und der angegeben Variable 'distanz' eine neue Position heraus.
     Diese neue Position ist abhängig von einigen Faktoren.
