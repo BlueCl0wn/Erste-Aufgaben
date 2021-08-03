@@ -37,7 +37,11 @@ def plot(my_arr, n):
     plt.show()
 
 def saveGridIMG(my_arr, n, string):
-    """Saves Array visualized as image."""
+    """
+    Speichert Array als Bilddatei.
+    Funktioniert nur für Gitterdarstellung.
+    """
+
     # Does fancy stuff. (creating subplot)
     fig = plt.figure(figsize=(5,5))
     ax = fig.add_subplot(111, aspect='equal')
@@ -49,10 +53,40 @@ def saveGridIMG(my_arr, n, string):
     # Displays the array as squares.
     mesh = plt.pcolormesh(my_arr, cmap=cMap)
 
-    # Saves plot as .png
+    # Speicehrt plot als .png
     fig.savefig(string, dpi=200)
 
+def saveGraphIMG(xAxis, yAxis, r, n, filename):
+    """
+    Speichert Array als Bilddatei.
+    Funktioniert nur für Darstellung von Graphen.
+    """
+
+    # Erzeugung des Graphen
+    fig, ax = plt.subplots()
+    xAxis = np.arange(0, r, 1)
+    ax.plot(xAxis, yAxis)
+
+    # Überschrift und Unterüberschrift
+    fig.suptitle("Energie über r")
+    ax.set_title("r = " + str(r) + " ; n = " + str(n))
+
+    # Achsenbeschriftung
+    ax.set_ylabel("Energie")
+    ax.set_xlabel("r")
+
+    # Formatiert plot
+    ax.set_xlim(0, r)
+
+    # Speicehrt plot als .png
+    fig.savefig(filename + "_r=" + str(r) + "_n=" + str(n))
+
 def saveFile(my_arr, string):
-    """Saves Array as text file."""
+    """Sepeichert Array als Textdatei."""
     with open(string, 'w') as file:
         file.write(np.array2string(my_arr, threshold=100))
+
+def smooth(y, box_pts):
+    box = np.ones(box_pts)/box_pts
+    y_smooth = np.convolve(y, box, mode='same')
+    return y_smooth

@@ -6,10 +6,13 @@ import numpy as np
 import DetermineCharge as DC
 import MakeGitter as MG
 import getPosition as GP
+
+"""Es gibt mehrere Versionen dieser Datei. V1, V2 und V3. Die Neueste ist jeweils schneller als die Vorherige."""
 import DeltaE.V3 as DeltaE
+
 import matplotlib.pyplot as plt
 
-def switchSpin(conf, n, T, r, distanz=0, akzeptanzrate=False):
+def switchSpin(conf, n, T, r, distanz=0, akzeptanzrate=False, GraphE=False):
     """
     Wählt einen zufälligen Spin aus, wechselt diesen und überprüft, ob dieser Wechsel beibehalten oder rückgängig gemacht wird.
     Beinhaltet Code zum berechnen der Akzeptanzrate.
@@ -83,13 +86,10 @@ def switchSpin(conf, n, T, r, distanz=0, akzeptanzrate=False):
         print("unaccepted = "  + str(abgelehnt))
         print("Akzeptanzrate (akzeptiert/Versuche): " + str(akzeptiert/Versuche))
 
-    fig, ax = plt.subplots()
-    xAxis = np.arange(0, r, 1)
-    ax.plot(xAxis, yAxis)
-    ax.set_title("Energie über r")
-    ax.axis([0,r, 0, ])
-    # plt.show()
-    # fig.savefig("bljusdfsdngo")
+    if GraphE:
+        xAxis = np.arange(0, r, 5)
+        MG.saveGraphIMG(xAxis, yAxis, r, n, "EnergieGraph")
 
+        # MG.saveGraphIMG(xAxis, np.fft.fft(yAxis), r, n, "EnergieGraphSMooth")
 
     return conf
