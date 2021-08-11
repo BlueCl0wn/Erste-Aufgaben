@@ -3,12 +3,12 @@ import math
 import numpy as np
 
 # Funktionen
-import DetermineCharge as DC
-import MakeGitter as MG
-import GetPosition as GP
+from DetermineCharge import getAllCharge
+from MakeGitter import saveGraphIMG
+from GetPosition import getPosition
 
 """Es gibt mehrere Versionen dieser Datei. V1, V2 und V3. Die Neueste ist jeweils schneller als die Vorherige."""
-import DeltaE.V3 as DeltaE
+from  DeltaE.V3 import deltaE
 
 import matplotlib.pyplot as plt
 
@@ -37,22 +37,24 @@ def switchSpin(conf, n, T, r, distanz=0, akzeptanzrate=False, GraphE=False):
     posAlt = (None, None)
     pos = None
 
-    altE = DC.getAllCharge(conf, n)
+    altE = getAllCharge(conf, n)
 
-    for x in range(r):
+
+    x = 0
+    while(x < r):
 
         # Eine zufällige mögliche Ladung wird ausgewählt.
         # charge = MG.charge()
 
         # Position des Spinwechsel wird ausgewählt.
-        pos = GP.getPosition(posAlt, distanz, n)
+        pos = getPosition(posAlt, distanz, n)
 
         # Zähler für Akzeptanzrate wird erhöht.
         if akzeptanzrate:
             Versuche += 1
 
         # DeltaE wird als Zwischenvariable gespeichert.
-        dE = DeltaE.deltaE(conf, altE, pos, -conf[pos[0]][pos[1]], n)
+        dE = deltaE(conf, altE, pos, -conf[pos[0]][pos[1]], n)
         # Vorher:
         # dE = DeltaE.deltaE(conf, altE, pos, -conf[pos[0]][pos[1]], n)
 
@@ -93,7 +95,9 @@ def switchSpin(conf, n, T, r, distanz=0, akzeptanzrate=False, GraphE=False):
 
         yAxis[x] = altE
 
-    # For-schleife zuende
+        x += 1
+
+    # For-Schleife zuende
 
     # Ausgaben für Akzeptanzrate.
     if akzeptanzrate:
@@ -106,8 +110,8 @@ def switchSpin(conf, n, T, r, distanz=0, akzeptanzrate=False, GraphE=False):
 
     if GraphE:
         xAxis = np.arange(0, r, 1)
-        MG.saveGraphIMG(xAxis, yAxis, r, n, T,  "EGraph")
+        saveGraphIMG(xAxis, yAxis, r, n, T,  "EGraph")
 
-        # MG.saveGraphIMG(xAxis, np.fft.fft(yAxis), r, n, "EnergieGraphSMooth")
+        # saveGraphIMG(xAxis, np.fft.fft(yAxis), r, n, "EnergieGraphSMooth")
 
     return conf

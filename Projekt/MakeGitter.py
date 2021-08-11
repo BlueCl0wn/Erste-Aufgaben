@@ -56,7 +56,7 @@ def saveGridIMG(my_arr, n, string):
     # Speicehrt plot als .png
     fig.savefig(string, dpi=200)
 
-def saveGraphIMG(xAxis, yAxis, r, n, filename):
+def saveGraphIMG(xAxis, yAxis, r, n, T, filename):
     """
     Speichert Array als Bilddatei.
     Funktioniert nur für Darstellung von Graphen.
@@ -69,7 +69,7 @@ def saveGraphIMG(xAxis, yAxis, r, n, filename):
 
     # Überschrift und Unterüberschrift
     fig.suptitle("Energie über r")
-    ax.set_title("r = " + str(r) + " ; n = " + str(n))
+    ax.set_title("r = " + str(r) + " ; n = " + str(n) + " ; T = " + str(T))
 
     # Achsenbeschriftung
     ax.set_ylabel("Energie")
@@ -79,7 +79,7 @@ def saveGraphIMG(xAxis, yAxis, r, n, filename):
     ax.set_xlim(0, r)
 
     # Speicehrt plot als .png
-    fig.savefig(filename + "_r=" + str(r) + "_n=" + str(n))
+    fig.savefig(filename + "_r=" + str(r) + "_n=" + str(n) + "_T=" + str(T))
 
 def saveFile(my_arr, string):
     """Sepeichert Array als Textdatei."""
