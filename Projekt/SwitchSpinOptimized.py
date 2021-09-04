@@ -130,4 +130,4 @@ def switchSpin(conf, n, T, r, distanz=0, akzeptanzrate=False, GraphE=False, Grap
 
         # saveGraphIMG(xAxis, np.fft.fft(yAxis), r, n, "EnergieGraphSMooth")
 
-    return conf, (xAxisGraphE,yAxisGraphE[0:r]),
+    return conf
