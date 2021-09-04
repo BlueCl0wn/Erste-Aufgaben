@@ -58,7 +58,7 @@ def switchSpin(conf, n, T, r, distanz=0, akzeptanzrate=False, GraphE=False):
 
         # DeltaE ist kleiner als 0. Es wird also Energei freigesetzt und dammit ist die Wahrscheinlichkeit fürs Umdrehen 100%.
         if dE <= 0:
-            conf[pos[0]][pos[1]] = -conf[pos[0]][pos[1]]
+            conf[pos[0]][pos[1]] *= -1
             altE = altE + dE
             # print(conf[pos[0]][pos[1]])
             # print(-conf[pos[0]][pos[1]])
@@ -75,8 +75,8 @@ def switchSpin(conf, n, T, r, distanz=0, akzeptanzrate=False, GraphE=False):
                 akzeptiertE += 1
 
         # DeltaE ist größer als 0. Es wird Energie benötigt. Mit gewisser Wahrscheinlichkeit findest Spinwechsel trotzdem statt.
-        elif np.random.rand() < math.exp(-beta*dE): # !!!!!! e ist eingeführt. J und beta kürzen sich aber gegenseitig weg, dadurch immer noch kein T. Ohne J kein sinnvoller Effekt des elifs, da redundant.
-            conf[pos[0]][pos[1]] = -conf[pos[0]][pos[1]]
+        elif np.random.rand() < math.exp(-beta*dE):
+            conf[pos[0]][pos[1]] *= -1
             altE = altE + dE
 
             # für Akzeptanzrate

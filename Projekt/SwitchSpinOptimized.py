@@ -1,10 +1,11 @@
 # Bibliotheken
 import math
 import numpy as np
+import time
 
 # Funktionen
 from DetermineCharge import getAllCharge
-from MakeGitter import saveGraphIMG
+from SaveGitter import saveGraphIMG
 from GetPosition import getPosition
 
 """Es gibt mehrere Versionen dieser Datei. V1, V2 und V3. Die Neueste ist jeweils schneller als die Vorherige."""
@@ -15,13 +16,13 @@ import matplotlib.pyplot as plt
 # beta = J/1.380649e-23*T
 
 
-def switchSpin(conf, n, T, r, distanz=0, akzeptanzrate=False, GraphE=False):
+def switchSpin(conf, n, T, r, distanz=0, akzeptanzrate=False, GraphE=False, GraphMag=False, Abbruchbedingung=(False, None)):
     """
     Wählt einen zufälligen Spin aus, wechselt diesen und überprüft, ob dieser Wechsel beibehalten oder rückgängig gemacht wird.
     Beinhaltet Code zum berechnen der Akzeptanzrate.
 
     """
-
+    ptp = None
     # Variabeln für Akzeptanzrate. ALle Codeblöcke, die mit der Akzeptanzrate zu tun haben, werden nur ausgeführt, wenn der Paramter 'akzeptanzrate' 'True' ist. Dieser ist standardmäßig 'False'.
     if akzeptanzrate:
         Versuche = 0
@@ -30,7 +31,16 @@ def switchSpin(conf, n, T, r, distanz=0, akzeptanzrate=False, GraphE=False):
         akzeptiertW = 0
         abgelehnt = 0
 
-    yAxis = np.zeros(r)
+    # Erzeugt einen Array, in dem die Werte für E gespeichert werden, wenn GraphE 'True' ist
+    if GraphE:
+        yAxisGraphE = np.zeros(r)
+
+    # Erzeugt einen Array, in dem die Werte für E für die Abbruchbedingung gespeichert werden, wenn Abbruchbedingung 'True' ist
+    if Abbruchbedingung[0]:
+        AbbruchArray = np.zeros((Abbruchbedingung[1]))
+
+    # if GraphMag:
+    #     yAxisGraphMag = np.zeros(r)
 
     beta = 1/T
 
@@ -40,11 +50,8 @@ def switchSpin(conf, n, T, r, distanz=0, akzeptanzrate=False, GraphE=False):
     altE = getAllCharge(conf, n)
 
 
-    x = 0
-    while(x < r):
-
-        # Eine zufällige mögliche Ladung wird ausgewählt.
-        # charge = MG.charge()
+    i = 0
+    while(i < r):
 
         # Position des Spinwechsel wird ausgewählt.
         pos = getPosition(posAlt, distanz, n)
@@ -60,25 +67,16 @@ def switchSpin(conf, n, T, r, distanz=0, akzeptanzrate=False, GraphE=False):
 
         # DeltaE ist kleiner als 0. Es wird also Energei freigesetzt und dammit ist die Wahrscheinlichkeit fürs Umdrehen 100%.
         if dE <= 0:
-            conf[pos[0]][pos[1]] = -conf[pos[0]][pos[1]]
+            conf[pos[0]][pos[1]] *= -1
             altE = altE + dE
-            # print(conf[pos[0]][pos[1]])
-            # print(-conf[pos[0]][pos[1]])
-            # print("------")
-
-            # Vorher:
-            # conf[pos[0]][pos[1]] = charge
-            # print(conf[pos[0]][pos[1]])
-            # print(charge)
-            # print("------")
 
             if akzeptanzrate:
                 akzeptiert += 1
                 akzeptiertE += 1
 
         # DeltaE ist größer als 0. Es wird Energie benötigt. Mit gewisser Wahrscheinlichkeit findest Spinwechsel trotzdem statt.
-        elif np.random.rand() < math.exp(-beta*dE): # !!!!!! e ist eingeführt. J und beta kürzen sich aber gegenseitig weg, dadurch immer noch kein T. Ohne J kein sinnvoller Effekt des elifs, da redundant.
-            conf[pos[0]][pos[1]] = -conf[pos[0]][pos[1]]
+        elif np.random.rand() < math.exp(-beta*dE):
+            conf[pos[0]][pos[1]] *= -1
             altE = altE + dE
 
             # für Akzeptanzrate
@@ -93,11 +91,27 @@ def switchSpin(conf, n, T, r, distanz=0, akzeptanzrate=False, GraphE=False):
 
             pass
 
-        yAxis[x] = altE
+        if GraphE:
+            yAxisGraphE[i] = altE
 
-        x += 1
 
-    # For-Schleife zuende
+
+        # Erhöht den Zähler für die While-Loop um 1.
+        i += 1
+
+        # Fügt neuen Wert in der AbbruchArray ein und überprüft, ob E über dessen Länge im Bereich von T konstant ist.
+
+        if Abbruchbedingung[0]:
+            AbbruchArray = np.concatenate(([altE], AbbruchArray[0:-1]))
+            ptp = np.ptp(AbbruchArray)
+            # print(ptp)
+            # Wenn die Energie nicht mehr stark schwankt, wird dem Zähler i der Wert r zugewiesen, damit die While-Loop beendet wird.
+            if ptp < T and i > Abbruchbedingung[1]:
+                # x = i
+                r = i
+                print("abgebrochen, weil E konstant")
+
+    # While-Loop zuende
 
     # Ausgaben für Akzeptanzrate.
     if akzeptanzrate:
@@ -109,9 +123,11 @@ def switchSpin(conf, n, T, r, distanz=0, akzeptanzrate=False, GraphE=False):
         print("Akzeptanzrate (akzeptiert/Versuche): " + str(akzeptiert/Versuche))
 
     if GraphE:
-        xAxis = np.arange(0, r, 1)
-        saveGraphIMG(xAxis, yAxis, r, n, T,  "EGraph")
+        xAxisGraphE = np.arange(0, r, 1)
+        # print(np.shape(xAxisGraphE))
+        # print(np.shape(yAxisGraphE))
+        saveGraphIMG(xAxisGraphE, yAxisGraphE[0:r], r, n, T,  "EGraph", ptp)
 
         # saveGraphIMG(xAxis, np.fft.fft(yAxis), r, n, "EnergieGraphSMooth")
 
-    return conf
+    return conf, (xAxisGraphE,yAxisGraphE[0:r]),

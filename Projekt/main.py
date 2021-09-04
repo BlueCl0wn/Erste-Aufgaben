@@ -1,31 +1,30 @@
-import MakeGitter as MG
-import DetermineCharge as DC
+# Bibliotheken
 import time
-
-
-
-# import SwitchSpinOptimized as SwSp
-import SwitchSpin as SwSp
-
-
 import matplotlib.pyplot as plt
 import numpy as np
 
+# Funktionen
+import MakeGitter as MG
+import DetermineCharge as DC
+import SwitchSpinOptimized as SwSp
+import SaveGitter as SG
+
+
 n = 100
 T = 1
-r = 1000000
+r = 10000000
 
 
 gitter = MG.getGitterV2(n)
 
-MG.saveGridIMG(gitter, n, "Projekt/Ergebnis/start_Graph")
+SG.saveGridIMG(gitter, n, "Projekt/Ergebnis/start_Graph")
 
-MG.saveFile(gitter, "Projekt/Ergebnis/start_Array")
+SG.saveFile(gitter, "Projekt/Ergebnis/start_Array")
 
-conf_neu = SwSp.switchSpin(gitter, n, T, r, distanz=0, akzeptanzrate=False, GraphE=True)
+conf_neu = SwSp.switchSpin(gitter, n, T, r, distanz=0, akzeptanzrate=False, GraphE=True, Abbruchbedingung=(True, 100))
 
-MG.saveGridIMG(conf_neu, n, "Projekt/Ergebnis/end_Graph")
-MG.saveFile(gitter, "Projekt/Ergebnis/end_Array")
+SG.saveGridIMG(conf_neu, n, "Projekt/Ergebnis/end_Graph")
+SG.saveFile(gitter, "Projekt/Ergebnis/end_Array")
 
 # plt.show()
 
