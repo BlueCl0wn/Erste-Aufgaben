@@ -16,7 +16,7 @@ import matplotlib.pyplot as plt
 # beta = J/1.380649e-23*T
 
 
-def switchSpin(conf, n, T, r, distanz=0, akzeptanzrate=False, GraphE=False, GraphMag=False, Abbruchbedingung=(False, None)):
+def switchSpin(conf, n, T, r, distanz=0, akzeptanzrate=True, GraphE=True, GraphMag=False, Abbruchbedingung=(False, None)):
     """
     Wählt einen zufälligen Spin aus, wechselt diesen und überprüft, ob dieser Wechsel beibehalten oder rückgängig gemacht wird.
     Beinhaltet Code zum berechnen der Akzeptanzrate.
@@ -109,25 +109,28 @@ def switchSpin(conf, n, T, r, distanz=0, akzeptanzrate=False, GraphE=False, Grap
             if ptp < T and i > Abbruchbedingung[1]:
                 # x = i
                 r = i
-                print("abgebrochen, weil E konstant")
+                # print("abgebrochen, weil E konstant")
 
     # While-Loop zuende
 
     # Ausgaben für Akzeptanzrate.
     if akzeptanzrate:
-        print("Versuche = " + str(Versuche))
-        print("akzeptiert = " + str(akzeptiert))
-        print("\tdE < 0 = " + str(akzeptiertE))
-        print("\tw < e = " + str(akzeptiertW))
-        print("unaccepted = "  + str(abgelehnt))
-        print("Akzeptanzrate (akzeptiert/Versuche): " + str(akzeptiert/Versuche))
+    #     print("Versuche = " + str(Versuche))
+    #     print("akzeptiert = " + str(akzeptiert))
+    #     print("\tdE < 0 = " + str(akzeptiertE))
+    #     print("\tw < e = " + str(akzeptiertW))
+    #     print("unaccepted = "  + str(abgelehnt))
+    #     print("Akzeptanzrate (akzeptiert/Versuche): " + str(akzeptiert/Versuche))
+
+        my_akzeptenzVars = np.array([Versuche, akzeptiert, akzeptiertE, akzeptiertW, abgelehnt, akzeptiert/Versuche])
 
     if GraphE:
         xAxisGraphE = np.arange(0, r, 1)
         # print(np.shape(xAxisGraphE))
         # print(np.shape(yAxisGraphE))
         saveGraphIMG(xAxisGraphE, yAxisGraphE[0:r], r, n, T,  "EGraph", ptp)
+        my_GraphE = np.array([xAxisGraphE, yAxisGraphE[0:r]])
 
         # saveGraphIMG(xAxis, np.fft.fft(yAxis), r, n, "EnergieGraphSMooth")
 
-    return conf
+    return [conf, my_GraphE if GraphE else None, my_akzeptenzVars if akzeptanzrate  else None]

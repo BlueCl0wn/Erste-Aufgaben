@@ -12,7 +12,7 @@ import SaveGitter as SG
 
 n = 100
 T = 1
-r = 10000000
+r = 10000
 
 
 gitter = MG.getGitterV2(n)
@@ -21,7 +21,11 @@ SG.saveGridIMG(gitter, n, "Projekt/Ergebnis/start_Graph")
 
 SG.saveFile(gitter, "Projekt/Ergebnis/start_Array")
 
-conf_neu = SwSp.switchSpin(gitter, n, T, r, distanz=0, akzeptanzrate=False, GraphE=True, Abbruchbedingung=(True, 100))
+conf_neu, my_graphE, my_akzeptanzVars = SwSp.switchSpin(gitter, n, T, r, distanz=0, akzeptanzrate=False, GraphE=False, Abbruchbedingung=(True, 100))
+
+print("hsdfbsdifb")
+print(my_graphE)
+print(my_akzeptanzVars)
 
 SG.saveGridIMG(conf_neu, n, "Projekt/Ergebnis/end_Graph")
 SG.saveFile(gitter, "Projekt/Ergebnis/end_Array")
