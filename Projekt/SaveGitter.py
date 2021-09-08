@@ -34,11 +34,13 @@ def saveGridIMG(my_arr, n, string) -> None:
     # Speicehrt plot als .png
     fig.savefig(string, dpi=200)
 
-def saveGraphIMG(yAxis, r, n, T, filename, ptp) -> None:
+def saveGraphIMG(yAxis, n, T, filename, ptp) -> None:
     """
     Speichert Array als Bilddatei.
     Funktioniert nur für Darstellung von Graphen.
     """
+
+    r = yAxis.shape[0]
 
     # Erzeugung des Graphen
     fig, ax = plt.subplots()
@@ -69,8 +71,8 @@ def saveMeanGraphIMG(yAxese, yAxisMean, r, n, T, reps, filename) -> None:
     fig, ax = plt.subplots()
     # xAxis = np.arange(0, r, 1)
     for i in yAxese:
-        ax.plot(i,  color='grey', linewidth='0.3')
-    ax.plot(yAxisMean, linewidth='3')
+        ax.plot(i,  color='grey', linewidth='0.1')
+    ax.plot(yAxisMean, linewidth='2.5')
 
     # Überschrift und Unterüberschrift
     fig.suptitle("gemittelte Energie über r")

@@ -24,8 +24,3 @@ def getGitterV2(n) -> np.ndarray:
     """Returns an array with the dimension n*n randomly filled with -1 or 1.
     second version. much faster"""
     return np.random.choice([-1, 1], (n, n))
-
-def smooth(y, box_pts):
-    box = np.ones(box_pts)/box_pts
-    y_smooth = np.convolve(y, box, mode='same')
-    return y_smooth

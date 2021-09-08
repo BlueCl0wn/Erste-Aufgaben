@@ -23,6 +23,7 @@ def switchSpin(conf, n, T, r, distanz=0, akzeptanzrate=True, GraphE=True, GraphM
 
     returns Triple (conf_neu, my_graphE, my_akzeptanzVars)
     """
+
     ptp = None
     # Variabeln für Akzeptanzrate. ALle Codeblöcke, die mit der Akzeptanzrate zu tun haben, werden nur ausgeführt, wenn der Paramter 'akzeptanzrate' 'True' ist. Dieser ist standardmäßig 'False'.
     if akzeptanzrate:
@@ -105,12 +106,12 @@ def switchSpin(conf, n, T, r, distanz=0, akzeptanzrate=True, GraphE=True, GraphM
         if Abbruchbedingung[0]:
             AbbruchArray = np.concatenate(([altE], AbbruchArray[0:-1]))
             ptp = np.ptp(AbbruchArray)
-            # print(ptp)
             # Wenn die Energie nicht mehr stark schwankt, wird dem Zähler i der Wert r zugewiesen, damit die While-Loop beendet wird.
             if ptp < T and i > Abbruchbedingung[1]:
                 # x = i
                 r = i
-                # print("abgebrochen, weil E konstant")
+                print("abgebrochen, weil E konstant")
+                print(ptp)
 
     # While-Loop zuende
 
@@ -122,15 +123,10 @@ def switchSpin(conf, n, T, r, distanz=0, akzeptanzrate=True, GraphE=True, GraphM
     #     print("\tw < e = " + str(akzeptiertW))
     #     print("unaccepted = "  + str(abgelehnt))
     #     print("Akzeptanzrate (akzeptiert/Versuche): " + str(akzeptiert/Versuche))
-
         my_akzeptenzVars = np.array([Versuche, akzeptiert, akzeptiertE, akzeptiertW, abgelehnt, akzeptiert/Versuche])
 
     if GraphE:
-        xAxisGraphE = np.arange(0, r, 1)
-        # print(np.shape(xAxisGraphE))
-        # print(np.shape(yAxisGraphE))
-        # saveGraphIMG(xAxisGraphE, yAxisGraphE[0:r], r, n, T,  "EGraph", ptp if not None else "error")
-        my_GraphE = np.array((xAxisGraphE, yAxisGraphE[0:r]))
+        my_GraphE = yAxisGraphE[0:r]
 
         # saveGraphIMG(xAxis, np.fft.fft(yAxis), r, n, "EnergieGraphSMooth")
     infos = [n, T, r, ptp]
