@@ -22,11 +22,19 @@ reps = 3
 
 
 def blub(reps, n, beta, r,) -> list:
+    """
+    Erstellt eine Liste mit Magnetisierungssummen aus einer Liste mit Systemkonfigurationen
+    """
+
     # x = Wiederholung.repeatChoose(reps, n, beta, r, 0)
     # y = map(getAllMag, x)
     return list(map(getAllMag, Wiederholung.repeatChoose(reps, n, beta, r, 0)))
 
 def testBeta(d) -> list:
+    """
+    Erzeugt eine Liste aus Listen, welche aus reps Wiederholungen von Simulationen bestehen, für betas mit dem Abstand 1/d
+    """
+
     betas = np.flip(np.arange(1.0, 0.0, -1.0/d))
     return [blub(reps, n, beta, r,) for beta in betas]
 
