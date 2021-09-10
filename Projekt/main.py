@@ -7,42 +7,42 @@ import numpy as np
 import MakeGitter as MG
 import DetermineCharge as DC
 import SwitchSpinOptimized as SwSp
+from DetermineMagnetisierung import getAllMag
 import SaveGitter as SG
 import Wiederholung
 import Berechnungen as B
-
+import Functions
 
 n = 100
-T = 10
-r = 1000000
-reps = 10
+# T = 10
+beta = 0.5 # 0 <= beta <= 1
+r = 10000
+reps = 3
 
 
-def meanGraph() -> None:
-    listOfGraphs = Wiederholung.repeat(reps, n, T, r)
-    print(listOfGraphs)
 
-    avgGraph = B.tolerant_meanArray(listOfGraphs)
-    print(avgGraph)
+def blub(reps, n, beta, r,) -> list:
+    # x = Wiederholung.repeatChoose(reps, n, beta, r, 0)
+    # y = map(getAllMag, x)
+    return list(map(getAllMag, Wiederholung.repeatChoose(reps, n, beta, r, 0)))
 
-    SG.saveMeanGraphIMG(listOfGraphs, avgGraph, r, n, T, reps,  "EGraphGemittelt")
+def testBeta(d) -> list:
+    betas = np.flip(np.arange(1.0, 0.0, -1.0/d))
+    return [blub(reps, n, beta, r,) for beta in betas]
 
-def graph():
-    gitter = MG.getGitterV2(n)
+x = testBeta(5)
+print(x)
 
-    # SG.saveGridIMG(gitter, n, "Projekt/Ergebnis/start_Graph")
-    # SG.saveFile(gitter, "Projekt/Ergebnis/start_Array")
+y = B.avgArraySameLength(x, axis=1)
+print(y)
 
-    conf_neu, my_graphE, my_akzeptanzVars, infos = SwSp.switchSpin(gitter, n, T, r, distanz=0, akzeptanzrate=False, GraphE=True, Abbruchbedingung=(True, 100))
+# bla = [beta for beta in np.arange(1.0, 0.0, -1.0/50)]
+# print(np.flip(bla))
 
-    print("hsdfbsdifb")
-    # print(conf_neu)
-    print(my_graphE)
-    # print(my_akzeptanzVars)
 
-    # SG.saveGridIMG(conf_neu, n, "Projekt/Ergebnis/end_Graph")
-    SG.saveGraphIMG(my_graphE, n, T,  "EGraph", int(infos[3]))
-    # SG.saveFile(gitter, "Projekt/Ergebnis/end_Array")
+# y = map(getAllMag, x)
+# print(list(y))
+# SG.saveArray("test", x)
 
-# graph()
-meanGraph()
+
+# Functions.meanGraph(n, beta, r, reps)

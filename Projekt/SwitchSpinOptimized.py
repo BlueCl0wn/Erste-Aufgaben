@@ -16,7 +16,7 @@ import matplotlib.pyplot as plt
 # beta = J/1.380649e-23*T
 
 
-def switchSpin(conf, n, T, r, distanz=0, akzeptanzrate=True, GraphE=True, GraphMag=False, Abbruchbedingung=(False, None)) -> tuple:
+def switchSpin(conf, n, beta, r, distanz=0, akzeptanzrate=True, GraphE=True, Abbruchbedingung=(True, 100)) -> np.ndarray:
     """
     Wählt einen zufälligen Spin aus, wechselt diesen und überprüft, ob dieser Wechsel beibehalten oder rückgängig gemacht wird.
     Beinhaltet Code zum berechnen der Akzeptanzrate.
@@ -41,10 +41,8 @@ def switchSpin(conf, n, T, r, distanz=0, akzeptanzrate=True, GraphE=True, GraphM
     if Abbruchbedingung[0]:
         AbbruchArray = np.zeros((Abbruchbedingung[1]))
 
-    # if GraphMag:
-    #     yAxisGraphMag = np.zeros(r)
-
-    beta = 1/T
+    # beta = 1/T
+    T = 1/beta
 
     posAlt = (None, None)
     pos = None
@@ -129,6 +127,6 @@ def switchSpin(conf, n, T, r, distanz=0, akzeptanzrate=True, GraphE=True, GraphM
         my_GraphE = yAxisGraphE[0:r]
 
         # saveGraphIMG(xAxis, np.fft.fft(yAxis), r, n, "EnergieGraphSMooth")
-    infos = [n, T, r, ptp]
+    infos = np.array([n, T, r, ptp])
 
-    return [conf, my_GraphE if GraphE else None, my_akzeptenzVars if akzeptanzrate else None, infos]
+    return np.array([conf, my_GraphE if GraphE else None, my_akzeptenzVars if akzeptanzrate else None, infos], dtype=object)

@@ -6,8 +6,8 @@ def smooth(y, box_pts) -> np.ndarray:
     y_smooth = np.convolve(y, box, mode='same')
     return y_smooth
 
-def averageArraySameLength(my_arrays) -> np.ndarray:
-    return np.mean((my_arrays), axis=0)
+def avgArraySameLength(my_arrays, axis=0) -> np.ndarray:
+    return np.mean((my_arrays), axis)
 
 def tolerant_meanArray(arrs):
     lens = [len(i) for i in arrs]
