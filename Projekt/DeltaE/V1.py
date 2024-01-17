@@ -1,6 +1,6 @@
-import DetermineCharge as DC
+import Projekt.DetermineCharge as DC
 import numpy as np
-import MakeGitter as MG
+import Projekt.MakeGitter as MG
 
 def deltaE(conf_alt, conf_neu, n):
     return DC.getAllCharge(conf_neu, n) - DC.getAllCharge(conf_alt, n)

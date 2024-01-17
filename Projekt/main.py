@@ -16,7 +16,7 @@ import Functions
 n = 100
 # T = 10
 beta = 0.5 # 0 <= beta <= 1
-r = 10000
+r = 1
 reps = 3
 
 

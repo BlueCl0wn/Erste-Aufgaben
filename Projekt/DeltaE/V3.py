@@ -1,4 +1,4 @@
-import DetermineCharge as DC
+import Projekt.DetermineCharge as DC
 
 
 # Definition der Boltzmann-Konstanten

@@ -12,7 +12,8 @@ def repeatAll(reps, n, beta, r, distanz=0, abbruch=100) -> np.ndarray:
     return [swSp(getGitter(n), n, beta, r, distanz, akzeptanzrate=True, GraphE=True, Abbruchbedingung=(True, abbruch)) for x in itertools.repeat(None, reps)]
 
 def repeatChoose(reps, n, beta, r, pos, distanz=0, akzeptanzrate=False, GraphE=True, Abbruchbedingung=(True, 100)) -> np.ndarray:
-    """Returned einen Liste mit den Arrays an der Position pos von den Rückgabewerten vonswitchSpin von reps Durchläufen"""
+    """Returned einen Liste mit den Arrays an der Position pos von den Rückgabewerten vonswitchSpin von reps
+    Durchläufen """
     return [swSp(getGitter(n), n, beta, r, distanz, akzeptanzrate, GraphE, Abbruchbedingung)[pos] for x in itertools.repeat(None, reps)]
 
 

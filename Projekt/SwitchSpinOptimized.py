@@ -6,7 +6,7 @@ import time
 # Funktionen
 from DetermineCharge import getAllCharge
 from SaveGitter import saveGraphIMG
-from GetPosition import getPosition
+from getPosition import getPosition
 
 """Es gibt mehrere Versionen dieser Datei. V1, V2 und V3. Die Neueste ist jeweils schneller als die Vorherige."""
 from  DeltaE.V3 import deltaE
