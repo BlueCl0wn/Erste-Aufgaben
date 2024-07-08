@@ -36,14 +36,14 @@ def saveGridIMG(my_arr, n, string) -> None:
     fig.savefig(string, dpi=200)
 
 
-def saveGraphIMG(yAxis, n, beta, filename, ptp) -> None:
+def saveGraphIMG(yAxis, n, beta, filename, ptp, r="None") -> None:
     """
     Speichert Array als Bilddatei.
     Funktioniert nur für Darstellung von Graphen.
     """
 
     # Definiert Titel und Überschrift dieser Speicherung
-    title = "r = %(r)s ; n = %(n)s ; beta = %(beta)s ; ptp=%(ptp)s" % locals()
+    title = "r = {r}s ; n = {n}s ; beta = {beta}s ; ptp={ptp}s".format(**locals())
     title = title.replace(".", ",")
 
     r = yAxis.shape[0]
@@ -64,8 +64,8 @@ def saveGraphIMG(yAxis, n, beta, filename, ptp) -> None:
     # Formatiert plot
     ax.set_xlim(0, r)
 
-    # Speicehrt plot als .png
-    fig.savefig(filename + "r = %(r)s ; n = %(n)s ; beta = %(beta)s ; ptp=%(ptp)s" % locals())
+    # Speichert plot als .png
+    fig.savefig(filename + "r = {r}s ; n = {n}s : beta = {beta}s ;  ptp={ptp}".format(r, n, beta, ptp))
 
 
 def saveMeanGraphIMG(yAxese, yAxisMean, r, n, beta, reps, filename) -> None:

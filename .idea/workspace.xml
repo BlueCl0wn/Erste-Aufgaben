@@ -3,6 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="9cbcfaad-ed13-4fa5-8dec-fdbc006cc536" name="Changes" comment="oasidfd">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Projekt/Functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/Projekt/Functions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Projekt/MakeGitter.py" beforeDir="false" afterPath="$PROJECT_DIR$/Projekt/MakeGitter.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Projekt/SaveGitter.py" beforeDir="false" afterPath="$PROJECT_DIR$/Projekt/SaveGitter.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Projekt/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Projekt/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Projekt/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/Projekt/test.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,6 +67,9 @@
       <workItem from="1697125225075" duration="66000" />
       <workItem from="1705488125208" duration="481000" />
       <workItem from="1706523687763" duration="71000" />
+      <workItem from="1707302147003" duration="1568000" />
+      <workItem from="1712692087017" duration="430000" />
+      <workItem from="1712905482828" duration="163000" />
     </task>
     <task id="LOCAL-00001" summary="oasidfd">
       <created>1705491075442</created>

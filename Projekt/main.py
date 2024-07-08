@@ -20,6 +20,7 @@ r = 1
 reps = 3
 
 
+Functions.graph(n, beta, 100)
 
 def blub(reps, n, beta, r,) -> list:
     """

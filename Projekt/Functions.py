@@ -32,6 +32,8 @@ def graph(n, beta, r):
     print(my_graphE)
     # print(my_akzeptanzVars)
 
+    print("infos = ", infos)
+
     # SG.saveGridIMG(conf_neu, n, "Projekt/Ergebnis/end_Graph")
-    SG.saveGraphIMG(my_graphE, n, beta,  "EGraph", int(infos[3]))
+    SG.saveGraphIMG(my_graphE, n, beta,  "EGraph", int(infos[3]), r=r)
     # SG.saveFile(gitter, "Projekt/Ergebnis/end_Array")
